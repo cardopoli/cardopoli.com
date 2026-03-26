@@ -1,0 +1,16 @@
+{
+  "title": "cardopoli.",
+  "description": "Photography & Art Direction",
+  "columns": "7",
+  "mobile_columns": "2",
+  "curved_edges": true,
+  "photo_overlay": true,
+  "color_bg": "#120b00",
+  "color_text": "#ffb000",
+  "color_header_bg": "#120b00",
+  "font_family": "VT323",
+  "logo_size": "18px",
+  "banner_gif": "/uploads/banner.gif",
+  "logo_image": "",
+  "show_sidebar": true
+}
