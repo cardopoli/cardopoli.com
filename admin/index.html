@@ -3,713 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cardopoli.</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <style>
-        /* Default variables - will be overridden by settings.json */
-        :root {
-            --color-bg: #120b00;
-            --color-text: #ffb000;
-            --color-header-bg: #120b00;
-            --font-family: 'VT323', monospace;
-            --logo-size: 18px;
-            --columns-desktop: 7;
-            --columns-mobile: 2;
-            --spacing: 8px;
-            --header-height: 80px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: var(--color-bg);
-            color: var(--color-text);
-            font-family: var(--font-family);
-            line-height: 1.4;
-            overflow-x: hidden;
-        }
-
-        /* BANNER */
-        .banner {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-            background: var(--color-bg);
-        }
-
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* HEADER */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(18, 11, 0, 0.9), transparent);
-            border-bottom: 1px solid var(--color-text);
-        }
-
-        .logo {
-            font-size: var(--logo-size);
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--color-text);
-        }
-
-        .logo img {
-            max-height: 40px;
-            max-width: 150px;
-        }
-
-        nav {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        nav a {
-            color: var(--color-text);
-            text-decoration: none;
-            font-size: 14px;
-            border: 1px solid var(--color-text);
-            padding: 8px 16px;
-            transition: all 0.2s;
-        }
-
-        nav a:hover {
-            background: var(--color-text);
-            color: var(--color-bg);
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            border: 1px solid var(--color-text);
-            padding: 8px;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 2px;
-            background: var(--color-text);
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(18, 11, 0, 0.95);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            backdrop-filter: blur(10px);
-            padding: 60px 30px 30px;
-            overflow-y: auto;
-        }
-
-        .sidebar.active {
-            display: flex;
-        }
-
-        .sidebar-content {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .sidebar-content h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--color-text);
-            padding-bottom: 20px;
-        }
-
-        .sidebar-content p {
-            font-size: 14px;
-            line-height: 1.8;
-        }
-
-        .sidebar-close {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            font-size: 32px;
-            cursor: pointer;
-            border: 1px solid var(--color-text);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* CATEGORY FILTER */
-        .filter-bar {
-            position: sticky;
-            top: 0;
-            background: var(--color-bg);
-            border-bottom: 1px solid var(--color-text);
-            border-top: 1px solid var(--color-text);
-            padding: 15px 30px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            z-index: 50;
-            margin-top: 100vh;
-            align-items: center;
-        }
-
-        .filter-label {
-            font-size: 12px;
-            opacity: 0.7;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--color-text);
-            color: var(--color-text);
-            font-family: inherit;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--color-text);
-            color: var(--color-bg);
-        }
-
-        /* GRID */
-        .portfolio {
-            display: grid;
-            gap: var(--spacing);
-            padding: 30px;
-            background: var(--color-bg);
-            grid-template-columns: repeat(var(--columns-desktop), 1fr);
-        }
-
-        .grid-item {
-            aspect-ratio: 1;
-            background: #1a1410;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--color-text);
-            transition: all 0.3s;
-        }
-
-        .grid-item:hover {
-            border-color: var(--color-text);
-            transform: scale(1.02);
-        }
-
-        .grid-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .grid-item.hidden {
-            display: none;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(18, 11, 0, 0.95);
-            z-index: 300;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-            padding: 60px 30px 30px;
-            overflow-y: auto;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .modal-image {
-            max-width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
-
-        .modal-info {
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .modal-info h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .modal-info p {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            font-size: 32px;
-            cursor: pointer;
-            border: 1px solid var(--color-text);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-nav {
-            position: absolute;
-            bottom: 30px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .modal-nav button {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--color-text);
-            color: var(--color-text);
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-nav button:hover {
-            background: var(--color-text);
-            color: var(--color-bg);
-        }
-
-        /* ABOUT PAGE */
-        .page-view {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-bg);
-            z-index: 250;
-            padding: 100px 30px 30px;
-            overflow-y: auto;
-        }
-
-        .page-view.active {
-            display: block;
-        }
-
-        .page-view-content {
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .page-view-close {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            font-size: 32px;
-            cursor: pointer;
-            border: 1px solid var(--color-text);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 251;
-        }
-
-        /* Curved edges */
-        body.curved-edges .grid-item,
-        body.curved-edges .modal-image {
-            border-radius: 10px;
-        }
-
-        /* Photo overlay */
-        body.show-overlay .grid-item:hover::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            pointer-events: none;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
-            .portfolio {
-                grid-template-columns: repeat(auto-fit, minmax(calc(100% / var(--columns-desktop)), 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            nav {
-                display: none;
-            }
-
-            header {
-                padding: 15px;
-            }
-
-            .portfolio {
-                grid-template-columns: repeat(var(--columns-mobile), 1fr);
-                padding: 15px;
-            }
-
-            .filter-bar {
-                padding: 10px 15px;
-                gap: 10px;
-                margin-top: calc(100vh - 20px);
-            }
-
-            .modal {
-                padding: 60px 15px 15px;
-            }
-
-            .modal-image {
-                max-height: 60vh;
-            }
-
-            .sidebar {
-                padding: 50px 20px 20px;
-            }
-        }
-    </style>
+    <title>cardopoli. — CMS</title>
+    <script src="https://esm.sh/sveltia-cms@2.15.0"></script>
+    <script>
+        window.sveltiaConfig = {
+            backend: {
+                name: 'github',
+                repo: 'cardopoli/cardopoli.com',
+                branch: 'main',
+                auth_type: 'pkce',
+                app_id: 'Ov23liLOSpLP2NlN6qA6'
+            },
+            media_folder: 'content/uploads',
+            public_folder: '/uploads',
+            collections: [
+                {
+                    name: 'settings',
+                    label: 'Site Settings',
+                    files: [
+                        {
+                            name: 'general',
+                            label: 'General Settings',
+                            file: 'content/settings.json',
+                            format: 'json',
+                            fields: [
+                                { label: 'Site Title', name: 'title', widget: 'string', default: 'cardopoli.' },
+                                { label: 'Description', name: 'description', widget: 'text', default: 'Photography & Art Direction' },
+                                { label: 'Desktop Columns', name: 'columns', widget: 'select', options: ['4', '6', '7', '8'], default: '7' },
+                                { label: 'Mobile Columns', name: 'mobile_columns', widget: 'select', options: ['1', '2'], default: '2' },
+                                { label: 'Curved Image Edges', name: 'curved_edges', widget: 'boolean', default: true },
+                                { label: 'Show Photo Overlay on Hover', name: 'photo_overlay', widget: 'boolean', default: true },
+                                { label: 'Background Colour', name: 'color_bg', widget: 'color', default: '#120b00' },
+                                { label: 'Text Colour', name: 'color_text', widget: 'color', default: '#ffb000' },
+                                { label: 'Header Background', name: 'color_header_bg', widget: 'color', default: '#120b00' },
+                                { label: 'Font Family', name: 'font_family', widget: 'select', options: ['VT323', 'Inter', 'Georgia', 'Courier New', 'Arial', 'Helvetica'], default: 'VT323' },
+                                { label: 'Logo Size', name: 'logo_size', widget: 'string', default: '18px' },
+                                { label: 'Banner GIF', name: 'banner_gif', widget: 'image', hint: 'Full viewport banner' },
+                                { label: 'Logo Image', name: 'logo_image', widget: 'image', required: false, hint: 'Optional - replaces text logo' },
+                                { label: 'Show Sidebar', name: 'show_sidebar', widget: 'boolean', default: true }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'projects',
+                    label: 'Projects',
+                    folder: 'content/projects',
+                    create: true,
+                    slug: '{{slug}}',
+                    fields: [
+                        { label: 'Project Title', name: 'title', widget: 'string' },
+                        { label: 'Slug', name: 'slug', widget: 'string' },
+                        { label: 'Description', name: 'description', widget: 'text', required: false },
+                        { label: 'Category', name: 'category', widget: 'string', hint: 'e.g. still life, ecommerce, people' },
+                        { 
+                            label: 'Photos', 
+                            name: 'photos', 
+                            widget: 'list', 
+                            fields: [
+                                { label: 'Photo', name: 'image', widget: 'image' },
+                                { label: 'Caption', name: 'caption', widget: 'string', required: false },
+                                { label: 'Alt Text', name: 'alt', widget: 'string', required: false }
+                            ] 
+                        },
+                        { label: 'Publish Date', name: 'date', widget: 'datetime' }
+                    ]
+                },
+                {
+                    name: 'pages',
+                    label: 'Pages',
+                    folder: 'content/pages',
+                    create: true,
+                    slug: '{{slug}}',
+                    fields: [
+                        { label: 'Page Title', name: 'title', widget: 'string' },
+                        { label: 'Slug', name: 'slug', widget: 'string' },
+                        { label: 'Content', name: 'body', widget: 'markdown' }
+                    ]
+                }
+            ]
+        };
+    </script>
 </head>
 <body>
-    <!-- BANNER -->
-    <section class="banner" id="banner">
-        <img id="banner-image" src="" alt="Banner" style="display: none;">
-    </section>
-
-    <!-- HEADER -->
-    <header>
-        <div class="logo" id="logo">cardopoli.</div>
-        <nav>
-            <a href="#" onclick="showHome(); return false;">Home</a>
-            <a href="#" onclick="showPage('about'); return false;">About</a>
-        </nav>
-        <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </header>
-
-    <!-- SIDEBAR -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-close" onclick="toggleSidebar()">×</div>
-        <div class="sidebar-content">
-            <h2>About</h2>
-            <p id="sidebar-about">Loading...</p>
-        </div>
-    </div>
-
-    <!-- FILTER BAR -->
-    <div class="filter-bar" id="filter-bar">
-        <span class="filter-label">Filter:</span>
-        <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
-        <div id="category-buttons"></div>
-    </div>
-
-    <!-- PORTFOLIO GRID -->
-    <div class="portfolio" id="portfolio"></div>
-
-    <!-- MODAL -->
-    <div class="modal" id="modal">
-        <div class="modal-close" onclick="closeModal()">×</div>
-        <div class="modal-content">
-            <img class="modal-image" id="modal-image" src="" alt="">
-            <div class="modal-info">
-                <h3 id="modal-title"></h3>
-                <p id="modal-category"></p>
-                <p id="modal-caption"></p>
-            </div>
-            <div class="modal-nav">
-                <button onclick="previousImage()">← Previous</button>
-                <button onclick="nextImage()">Next →</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ABOUT PAGE -->
-    <div class="page-view" id="about-page">
-        <div class="page-view-close" onclick="showHome()">×</div>
-        <div class="page-view-content" id="about-content">
-            Loading...
-        </div>
-    </div>
-
     <script>
-        let settings = {};
-        let projects = [];
-        let currentCategory = 'all';
-        let currentImageIndex = 0;
-        let currentProjectIndex = 0;
-        let filteredProjects = [];
-
-        // Load settings and apply to page
-        async function loadSettings() {
-            try {
-                const response = await fetch('/content/settings.json');
-                if (!response.ok) throw new Error('Settings not found');
-                settings = await response.json();
-            } catch (error) {
-                console.log('Using default settings');
-                settings = {
-                    title: 'cardopoli.',
-                    description: 'Photography & Art Direction',
-                    columns: '7',
-                    mobile_columns: '2',
-                    curved_edges: true,
-                    photo_overlay: true,
-                    color_bg: '#120b00',
-                    color_text: '#ffb000',
-                    color_header_bg: '#120b00',
-                    font_family: 'VT323',
-                    logo_size: '18px',
-                    show_sidebar: true
-                };
-            }
-
-            // Apply settings to CSS
-            document.documentElement.style.setProperty('--color-bg', settings.color_bg);
-            document.documentElement.style.setProperty('--color-text', settings.color_text);
-            document.documentElement.style.setProperty('--color-header-bg', settings.color_header_bg);
-            document.documentElement.style.setProperty('--font-family', settings.font_family === 'VT323' ? "'VT323', monospace" : settings.font_family);
-            document.documentElement.style.setProperty('--logo-size', settings.logo_size);
-            document.documentElement.style.setProperty('--columns-desktop', settings.columns || '7');
-            document.documentElement.style.setProperty('--columns-mobile', settings.mobile_columns || '2');
-
-            // Apply conditional classes
-            if (settings.curved_edges) document.body.classList.add('curved-edges');
-            if (settings.photo_overlay) document.body.classList.add('show-overlay');
-
-            // Set logo
-            const logoEl = document.getElementById('logo');
-            if (settings.logo_image) {
-                logoEl.innerHTML = `<img src="${settings.logo_image}" alt="logo">`;
-            } else {
-                logoEl.textContent = settings.title || 'cardopoli.';
-            }
-
-            // Set banner
-            if (settings.banner_gif) {
-                document.getElementById('banner-image').src = settings.banner_gif;
-                document.getElementById('banner-image').style.display = 'block';
-            }
-
-            // Set sidebar visibility
-            if (!settings.show_sidebar) {
-                document.querySelector('.hamburger').style.display = 'none';
-            }
-
-            document.title = settings.title;
-        }
-
-        // Load projects
-        async function loadProjects() {
-            try {
-                const response = await fetch('/content/projects.json');
-                if (!response.ok) throw new Error('Projects not found');
-                projects = await response.json();
-            } catch (error) {
-                console.log('No projects yet');
-                projects = [];
-            }
-
-            renderPortfolio();
-            buildCategoryFilter();
-        }
-
-        // Build category filter
-        function buildCategoryFilter() {
-            const categories = [...new Set(projects.map(p => p.category).filter(c => c))];
-            const container = document.getElementById('category-buttons');
-            container.innerHTML = '';
-
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.textContent = cat;
-                btn.onclick = () => filterCategory(cat, btn);
-                container.appendChild(btn);
-            });
-        }
-
-        // Filter by category
-        function filterCategory(category, element) {
-            currentCategory = category;
-
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            if (element) element.classList.add('active');
-
-            if (category === 'all') {
-                filteredProjects = [...projects];
-            } else {
-                filteredProjects = projects.filter(p => p.category === category);
-            }
-
-            renderPortfolio();
-        }
-
-        // Render portfolio
-        function renderPortfolio() {
-            const portfolio = document.getElementById('portfolio');
-            portfolio.innerHTML = '';
-
-            filteredProjects.forEach((project, projectIdx) => {
-                project.photos.forEach((photo, photoIdx) => {
-                    const item = document.createElement('div');
-                    item.className = 'grid-item';
-                    item.innerHTML = `<img src="${photo.image}" alt="${photo.alt || ''}" loading="lazy">`;
-                    item.onclick = () => openModal(projectIdx, photoIdx);
-                    portfolio.appendChild(item);
-                });
-            });
-        }
-
-        // Modal functions
-        function openModal(projectIdx, photoIdx) {
-            currentProjectIndex = projectIdx;
-            currentImageIndex = photoIdx;
-            showModalImage();
-            document.getElementById('modal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
-
-        function showModalImage() {
-            const project = filteredProjects[currentProjectIndex];
-            const photo = project.photos[currentImageIndex];
-
-            document.getElementById('modal-image').src = photo.image;
-            document.getElementById('modal-title').textContent = project.title;
-            document.getElementById('modal-category').textContent = project.category;
-            document.getElementById('modal-caption').textContent = photo.caption || '';
-        }
-
-        function nextImage() {
-            const project = filteredProjects[currentProjectIndex];
-            if (currentImageIndex < project.photos.length - 1) {
-                currentImageIndex++;
-            } else if (currentProjectIndex < filteredProjects.length - 1) {
-                currentProjectIndex++;
-                currentImageIndex = 0;
-            }
-            showModalImage();
-        }
-
-        function previousImage() {
-            if (currentImageIndex > 0) {
-                currentImageIndex--;
-            } else if (currentProjectIndex > 0) {
-                currentProjectIndex--;
-                currentImageIndex = filteredProjects[currentProjectIndex].photos.length - 1;
-            }
-            showModalImage();
-        }
-
-        // Keyboard nav
-        document.addEventListener('keydown', (e) => {
-            if (!document.getElementById('modal').classList.contains('active')) return;
-            if (e.key === 'ArrowRight') nextImage();
-            if (e.key === 'ArrowLeft') previousImage();
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // Page nav
-        function showHome() {
-            document.getElementById('about-page').classList.remove('active');
-            document.getElementById('sidebar').classList.remove('active');
-        }
-
-        function showPage(page) {
-            if (page === 'about') {
-                document.getElementById('about-page').classList.add('active');
-                loadAboutPage();
-            }
-        }
-
-        async function loadAboutPage() {
-            try {
-                const response = await fetch('/content/pages/about.json');
-                const data = await response.json();
-                document.getElementById('about-content').innerHTML = `<h2>${data.title}</h2><p>${data.body}</p>`;
-                document.getElementById('sidebar-about').innerHTML = data.body;
-            } catch (error) {
-                document.getElementById('about-content').innerHTML = '<p>About page not set up yet.</p>';
-            }
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        // Initialize
-        async function init() {
-            await loadSettings();
-            await loadProjects();
-        }
-
-        init();
+        CMS.init();
     </script>
 </body>
 </html>
