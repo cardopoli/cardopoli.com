@@ -1,0 +1,59 @@
+backend:
+  name: github
+  repo: cardopoli/cardopoli.com
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://cardopoli.com
+
+collections:
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string", hint: "URL-friendly name, e.g. smoke-signals" }
+      - { label: "Caption", name: "caption", widget: "string", required: false }
+      - { label: "Cover Image", name: "cover", widget: "image" }
+      - { label: "Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General"
+        name: "general"
+        file: "content/settings.json"
+        fields:
+          - { label: "Site Title", name: "site_title", widget: "string", default: "cardopoli." }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Background Image", name: "background_image", widget: "image", required: false }
+          - label: "Social Links"
+            name: "social"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
