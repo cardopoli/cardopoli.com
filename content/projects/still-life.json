@@ -1,6 +1,17 @@
 {
   "title": "Still Life Series",
   "slug": "still-life",
+  "caption": "",
+  "order": 1,
+  "images": [
+    {
+      "src": "/images/uploads/B83A7592.jpg",
+      "hires": "",
+      "caption": "",
+      "tags": [],
+      "wide": false
+    }
+  ],
   "description": "Minimalist objects and compositions",
   "category": "still life",
   "photos": [
