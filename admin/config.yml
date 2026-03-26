@@ -21,14 +21,30 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Slug", name: "slug", widget: "string", hint: "URL-friendly name, e.g. smoke-signals" }
       - { label: "Caption", name: "caption", widget: "string", required: false }
-      - { label: "Cover Image", name: "cover", widget: "image" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
       - { label: "Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first" }
       - label: "Images"
         name: "images"
         widget: "list"
         fields:
           - { label: "Image", name: "src", widget: "image" }
+          - { label: "Hi-res Image", name: "hires", widget: "image", required: false, hint: "Optional larger version for modal view" }
           - { label: "Caption", name: "caption", widget: "string", required: false }
+          - label: "Tags"
+            name: "tags"
+            widget: "select"
+            multiple: true
+            required: false
+            options:
+              - { label: "Still Life", value: "still-life" }
+              - { label: "Ecommerce", value: "ecommerce" }
+              - { label: "People", value: "people" }
+              - { label: "Interiors", value: "interiors" }
+              - { label: "Street", value: "street" }
+              - { label: "Personal", value: "personal" }
+              - { label: "Editorial", value: "editorial" }
+              - { label: "Events", value: "events" }
+          - { label: "Double width", name: "wide", widget: "boolean", default: false, required: false, hint: "Make this image span 2 columns in the grid" }
 
   - name: "pages"
     label: "Pages"
@@ -50,7 +66,7 @@ collections:
         fields:
           - { label: "Site Title", name: "site_title", widget: "string", default: "cardopoli." }
           - { label: "Description", name: "description", widget: "text" }
-          - { label: "Background Image", name: "background_image", widget: "image", required: false }
+          - { label: "Banner Image", name: "banner_image", widget: "image", required: false, hint: "The GIF/image for the full-screen banner" }
           - label: "Social Links"
             name: "social"
             widget: "list"

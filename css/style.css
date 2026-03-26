@@ -1,0 +1,391 @@
+/* ============================================
+   cardopoli. 
+   #120B00 / #ffb000 / VT323
+   ============================================ */
+
+@font-face { font-display: swap; }
+
+:root {
+    --bg: #120B00;
+    --amber: #ffb000;
+    --amber-dim: rgba(255, 176, 0, 0.4);
+    --amber-faint: rgba(255, 176, 0, 0.12);
+    --white: #ffffff;
+    --font: 'VT323', monospace;
+    --gap: 4px;
+    --cols: 5;
+    --topbar-h: 56px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--amber);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+a { color: var(--amber); text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+button { font-family: var(--font); cursor: pointer; }
+
+/* ============================================
+   TOP BAR
+   ============================================ */
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--topbar-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 500;
+    mix-blend-mode: difference;
+}
+
+.logo {
+    font-size: 36px;
+    color: var(--amber);
+    line-height: 1;
+    letter-spacing: 0.02em;
+}
+
+#topnav a {
+    font-size: 22px;
+    color: var(--amber);
+    transition: opacity 0.2s;
+}
+
+#topnav a:hover {
+    opacity: 0.6;
+}
+
+/* ============================================
+   BANNER
+   ============================================ */
+
+#banner {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+.banner-img {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/banner.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* ============================================
+   CATEGORY FILTERS
+   ============================================ */
+
+#filters {
+    position: sticky;
+    top: 0;
+    z-index: 400;
+    background: var(--bg);
+    padding: 16px 24px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--amber-faint);
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--amber-dim);
+    color: var(--amber-dim);
+    font-size: 18px;
+    padding: 6px 16px;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+}
+
+.filter-btn.active {
+    background: var(--amber);
+    color: var(--bg);
+    border-color: var(--amber);
+}
+
+/* ============================================
+   GRID
+   ============================================ */
+
+#main {
+    padding: var(--gap);
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--gap);
+}
+
+.grid-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1a1000;
+    aspect-ratio: 1;
+}
+
+.grid-item.wide {
+    grid-column: span 2;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.3s;
+    opacity: 0;
+}
+
+.grid-item img.loaded {
+    opacity: 1;
+}
+
+.grid-item:hover img {
+    transform: scale(1.03);
+}
+
+/* Overlay on hover */
+.grid-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 11, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+}
+
+.grid-item:hover .overlay {
+    opacity: 1;
+}
+
+.grid-item .overlay span {
+    color: var(--amber);
+    font-size: 18px;
+}
+
+/* Entrance animation */
+.grid-item {
+    animation: fadeUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger */
+.grid-item:nth-child(1) { animation-delay: 0.02s; }
+.grid-item:nth-child(2) { animation-delay: 0.04s; }
+.grid-item:nth-child(3) { animation-delay: 0.06s; }
+.grid-item:nth-child(4) { animation-delay: 0.08s; }
+.grid-item:nth-child(5) { animation-delay: 0.10s; }
+.grid-item:nth-child(6) { animation-delay: 0.12s; }
+.grid-item:nth-child(7) { animation-delay: 0.14s; }
+.grid-item:nth-child(8) { animation-delay: 0.16s; }
+.grid-item:nth-child(9) { animation-delay: 0.18s; }
+.grid-item:nth-child(10) { animation-delay: 0.20s; }
+
+/* Responsive */
+@media (max-width: 1200px) { :root { --cols: 4; } }
+@media (max-width: 900px) { :root { --cols: 3; } }
+@media (max-width: 600px) {
+    :root { --cols: 2; }
+    .grid-item.wide { grid-column: span 2; }
+    .logo { font-size: 28px; }
+    #topnav a { font-size: 18px; }
+    .filter-btn { font-size: 16px; padding: 4px 12px; }
+    #filters { padding: 12px 16px; }
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+
+#modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#modal.open {
+    display: flex;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+#modal-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 11, 0, 0.95);
+    cursor: pointer;
+}
+
+#modal-close {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--amber);
+    font-size: 36px;
+    z-index: 1010;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    line-height: 1;
+}
+
+#modal-close:hover { opacity: 1; }
+
+#modal-prev,
+#modal-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--amber);
+    font-size: 28px;
+    z-index: 1010;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+    padding: 16px;
+}
+
+#modal-prev:hover,
+#modal-next:hover { opacity: 1; }
+
+#modal-prev { left: 12px; }
+#modal-next { right: 12px; }
+
+#modal-img-wrap {
+    position: relative;
+    z-index: 1005;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modal-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+}
+
+#modal-caption {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--amber-dim);
+    font-size: 18px;
+    z-index: 1010;
+    text-align: center;
+    max-width: 600px;
+}
+
+@media (max-width: 600px) {
+    #modal-prev { left: 4px; padding: 10px; }
+    #modal-next { right: 4px; padding: 10px; }
+    #modal-img { max-width: 96vw; max-height: 80vh; }
+}
+
+/* ============================================
+   PAGE VIEW (Info)
+   ============================================ */
+
+#page-view {
+    display: none;
+    min-height: 100vh;
+    padding: 100px 24px 60px;
+    max-width: 700px;
+}
+
+#page-view.active {
+    display: block;
+}
+
+#page-content h1 {
+    font-size: 36px;
+    margin-bottom: 24px;
+    color: var(--amber);
+}
+
+#page-content p {
+    font-size: 22px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    color: var(--amber);
+}
+
+#page-content a {
+    color: var(--amber);
+    border-bottom: 1px solid var(--amber-dim);
+}
+
+#page-content a:hover {
+    border-color: var(--amber);
+}
+
+.page-back {
+    display: inline-block;
+    margin-top: 40px;
+    font-size: 20px;
+    color: var(--amber-dim);
+    transition: color 0.2s;
+}
+
+.page-back:hover { color: var(--amber); }
+
+/* ============================================
+   LOADING
+   ============================================ */
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px;
+    font-size: 22px;
+    color: var(--amber-dim);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--amber-dim); }
+::-webkit-scrollbar-thumb:hover { background: var(--amber); }
