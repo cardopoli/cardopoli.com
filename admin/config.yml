@@ -6,7 +6,7 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-site_url: https://cardopoli.com
+site_url: https://cardopoli.github.io/cardopoli.com/
 
 collections:
   - name: "projects"
