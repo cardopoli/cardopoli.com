@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cardopoli. — CMS</title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/sveltia-cms@latest/dist/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/sveltia-cms/dist/sveltia-cms.css">
 </head>
 <body>
+    <script src="https://unpkg.com/sveltia-cms"></script>
     <script>
-        window.sveltiaConfig = {
+        const config = {
             backend: {
                 name: 'github',
                 repo: 'cardopoli/cardopoli.com',
@@ -85,10 +86,12 @@
                 }
             ]
         };
-    </script>
-    <script>
-        import { CMS } from 'https://cdn.jsdelivr.net/npm/sveltia-cms@latest/dist/index.js';
-        CMS.init();
+
+        window.CMS_CONFIG = config;
+        
+        if (window.SveltiaCMS) {
+            window.SveltiaCMS.init(config);
+        }
     </script>
 </body>
 </html>
